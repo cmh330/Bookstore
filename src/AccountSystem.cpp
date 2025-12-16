@@ -58,7 +58,7 @@ bool AccountSystem::isValidUsername(const string& s) {
     return true;
 }
 bool AccountSystem::isValidPrivilege(int privilege) {
-    if (!(privilege == 7 || privilege == 5 || privilege == 3 || privilege == 0)) {
+    if (!(privilege == 7 || privilege == 1 || privilege == 3 || privilege == 0)) {
         return false;
     }
     return true;
@@ -185,8 +185,8 @@ void AccountSystem::registerAccount(const string& userID, const string& password
     }
 
     Account newAccount;
-    strcmp(newAccount.username, username.c_str());
-    strcmp(newAccount.password, password.c_str());
+    strcpy(newAccount.username, username.c_str());
+    strcpy(newAccount.password, password.c_str());
     strcpy(newAccount.userID, userID.c_str());
     newAccount.privilege = 1;
     accountStorage->Insert(userID, newAccount);
@@ -302,7 +302,7 @@ void AccountSystem::useradd(const string& userID, const string& password, int pr
 
 // ============ 删除账户 ============
 void AccountSystem::deleteAccount(const string& userID) {
-    if (!isValidUsername(userID)) {
+    if (!isValidPasswordOrID(userID)) {
         std::cout << "Invalid\n";
         return;
     }
