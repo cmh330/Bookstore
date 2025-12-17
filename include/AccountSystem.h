@@ -13,6 +13,14 @@ struct Account {
     char password[31];
     char username[31];
     int privilege;
+
+    Account() : privilege(0) {
+        for (int i = 0; i < 31; ++i) {
+            userID[i] = 0;
+            password[i] = 0;
+            username[i] = 0;
+        }
+    }
 };
 
 class AccountSystem {
