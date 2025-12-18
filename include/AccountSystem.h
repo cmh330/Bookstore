@@ -7,6 +7,7 @@
 #include "storage.h"
 #include <vector>
 #include <map>
+#include <cstring>
 
 struct Account {
     char userID[31];
@@ -20,6 +21,15 @@ struct Account {
             password[i] = 0;
             username[i] = 0;
         }
+    }
+    bool operator<(const Account& other) const {
+        return strcmp(userID, other.userID) < 0;
+    }
+    bool operator==(const Account& other) const {
+        return strcmp(userID, other.userID) == 0;
+    }
+    bool operator<=(const Account& other) const {
+        return strcmp(userID, other.userID) <= 0;
     }
 };
 
