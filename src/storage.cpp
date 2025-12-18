@@ -389,4 +389,19 @@ void BlockLinkedList<KeyLength, ValueType>::FindPrint(const string &index) {
     else std::cout << '\n';
 }
 
+template<int KeyLength, typename ValueType>
+vector<ValueType> BlockLinkedList<KeyLength, ValueType>::GetAll() {
+    vector<ValueType> result;
+    int pos = head;
+    while (pos != -1) {
+        Block<KeyLength, ValueType> block;
+        readBlock(pos, block);
+        for (int i = 0; i < block.size; ++i) {
+            result.push_back(block.data[i].value);
+        }
+        pos = block.next;
+    }
+    return result;
+}
+
 #endif //BOOKSTORE_STORAGE_CPP

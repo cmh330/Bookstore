@@ -72,6 +72,7 @@ public:
     void Delete(const string &index, const ValueType& value);
     vector<ValueType> Find(const string &index);
     void FindPrint(const string &index);
+    vector<ValueType> GetAll();
 };
 
 #include "storage.cpp"
