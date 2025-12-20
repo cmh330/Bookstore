@@ -476,7 +476,14 @@ void BookSystem::buy(const string& ISBN, int quantity) {
     toBuy.quantity -= quantity;
     bookStorage->Delete(ISBN, book[0]);
     bookStorage->Insert(ISBN, toBuy);
+
     financeSystem->recordTransaction(totalPrice);
+
+    if (accountSystem->hasPrivilege(3)) {
+        string currentUser = accountSystem->getCurrentUserID();
+        string operation = "buy " + ISBN + " " + std::to_string(quantity);
+        financeSystem->recordOperation(currentUser, operation);
+    }
 }
 
 
@@ -497,6 +504,10 @@ void BookSystem::select(const string& ISBN) {
         bookStorage->Insert(ISBN, newBook);
     }
     accountSystem->setSelectedBook(ISBN);
+
+    string currentUser = accountSystem->getCurrentUserID();
+    string operation = "select " + ISBN;
+    financeSystem->recordOperation(currentUser, operation);
 }
 
 
@@ -562,6 +573,10 @@ void BookSystem::modify(const string& line) {
         bookStorage->Insert(newBook.ISBN, newBook);
         UpdateIndexList(oldBook, newBook);
     }
+
+    string currentUser = accountSystem->getCurrentUserID();
+    string operation = "modify " + line;
+    financeSystem->recordOperation(currentUser, operation);
 }
 
 
@@ -590,4 +605,10 @@ void BookSystem::import(int quantity, double totalCost) {
     bookToImport.quantity += quantity;
     bookStorage->Delete(ISBN, book[0]);
     bookStorage->Insert(ISBN, bookToImport);
+
+    string currentUser = accountSystem->getCurrentUserID();
+    char temp[100];
+    sprintf(temp, "import %d %.2f", quantity, -totalCost);
+    financeSystem->recordOperation(currentUser, string(temp));
 }
+
