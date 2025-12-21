@@ -109,13 +109,13 @@ void FinanceSystem::showFinance(int count) {
         }
     }
 
+    if (count == -1) {
+        count = allTrans.size();
+    }
+
     if (count > allTrans.size()) {
         std::cout << "Invalid\n";
         return;
-    }
-
-    if (count == -1) {
-        count = allTrans.size();
     }
 
     if (allTrans.empty()) {
