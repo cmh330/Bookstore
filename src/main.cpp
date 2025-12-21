@@ -155,9 +155,13 @@ int main() {
 
         else if (operation == "import") {
             if (tokens.size() == 3) {
-                int quantity = stoi(tokens[1]);
-                double totalCost = stod(tokens[2]);
-                bookSystem->import(quantity, totalCost);
+                try {
+                    int quantity = stoi(tokens[1]);
+                    double totalCost = stod(tokens[2]);
+                    bookSystem->import(quantity, totalCost);
+                } catch (...) {
+                    std::cout << "Invalid\n";
+                }
             } else {
                 std::cout << "Invalid\n";
             }
