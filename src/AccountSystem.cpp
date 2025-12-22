@@ -159,7 +159,17 @@ void AccountSystem::logout() {
     }
     string userID = loginStack.back().userID;
     loginStack.pop_back();
-    selectedBooks.erase(userID);
+
+    bool stillLoggedIn = false;
+    for (int i = 0; i < loginStack.size(); ++i) {
+        if (strcmp(loginStack[i].userID, userID.c_str()) == 0) {
+            stillLoggedIn = true;
+            break;
+        }
+    }
+    if (!stillLoggedIn) {
+        selectedBooks.erase(userID);
+    }
 }
 
 
