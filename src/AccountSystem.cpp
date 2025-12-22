@@ -323,3 +323,12 @@ void AccountSystem::deleteAccount(const string& userID) {
     }
     accountStorage->Delete(userID, nowExisting[0]);
 }
+
+
+void AccountSystem::modifySelectedBooks(const string& oldISBN, const string& newISBN) {
+    for (auto it = selectedBooks.begin(); it != selectedBooks.end(); ++it) {
+        if (it->second == oldISBN) {
+            it->second = newISBN;
+        }
+    }
+}

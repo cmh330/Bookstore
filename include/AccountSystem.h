@@ -87,6 +87,8 @@ public:
 
     bool isUserLoggedIn(const string& userID) const;
     void initializeRoot();
+
+    void modifySelectedBooks(const string& oldISBN, const string& newISBN);
 };
 
 #endif //BOOKSTORE_ACCOUNTSYSTEM_H

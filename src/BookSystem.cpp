@@ -563,7 +563,8 @@ void BookSystem::modify(const string& line) {
     }
 
     if (modifications.count("ISBN")) {
-        accountSystem->setSelectedBook(newBook.ISBN);
+        // accountSystem->setSelectedBook(newBook.ISBN);
+        accountSystem->modifySelectedBooks(currentISBN, newBook.ISBN);
         bookStorage->Delete(currentISBN, oldBook);
         deleteFromIndexList(oldBook);
         bookStorage->Insert(newBook.ISBN, newBook);
