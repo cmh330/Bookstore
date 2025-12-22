@@ -90,14 +90,29 @@ void AccountSystem::setSelectedBook(const string& ISBN) {
     selectedBooks[userID] = ISBN;
 }
 string AccountSystem::getSelectedBook() const {
+    // if (loginStack.empty()) {
+    //     return "";
+    // }
+    // string userID = getCurrentUserID();
+    // auto it = selectedBooks.find(userID);
+    // if (it == selectedBooks.end()) {
+    //     return "";
+    // }
+    // return it->second;
     if (loginStack.empty()) {
+        std::cerr << "[getSelectedBook] loginStack empty" << std::endl;
         return "";
     }
     string userID = getCurrentUserID();
-    auto it = selectedBooks.find(userID);
+
+    std::map<string, string>::const_iterator it = selectedBooks.find(userID);
+
     if (it == selectedBooks.end()) {
+        std::cerr << "[getSelectedBook] user=" << userID << " → NOT FOUND" << std::endl;
         return "";
     }
+
+    std::cerr << "[getSelectedBook] user=" << userID << " → " << it->second << std::endl;
     return it->second;
 }
 bool AccountSystem::isUserLoggedIn(const string& userID) const {
@@ -159,10 +174,10 @@ void AccountSystem::logout() {
     }
     string userID = loginStack.back().userID;
     loginStack.pop_back();
-
     bool stillLoggedIn = false;
     for (int i = 0; i < loginStack.size(); ++i) {
-        if (strcmp(loginStack[i].userID, userID.c_str()) == 0) {
+        string stackUserID(loginStack[i].userID);
+        if (stackUserID == userID) {
             stillLoggedIn = true;
             break;
         }
