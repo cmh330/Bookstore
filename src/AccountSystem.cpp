@@ -135,6 +135,7 @@ void AccountSystem::su(const string& userID, const string& password) {
     int currentPrivilege = getCurrentPrivilege();
     if (currentPrivilege > account.privilege) {
         loginStack.push_back(account);
+        selectedBooks.push_back("");
         return;
     }
     if (password.empty()) {
