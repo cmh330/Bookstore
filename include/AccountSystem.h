@@ -37,7 +37,7 @@ class AccountSystem {
 private:
     BlockLinkedList<30, Account>* accountStorage; // userID -> 账户信息
     std::vector<Account> loginStack; // 记录都有哪些用户登录
-    std::map<string, string> selectedBooks; // userID -> ISBN
+    std::vector<string> selectedBooks; // 与loginstack一一对应
 
     bool isValidPasswordOrID(const string& s);
     bool isValidUsername(const string& s);

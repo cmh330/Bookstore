@@ -86,34 +86,23 @@ void AccountSystem::setSelectedBook(const string& ISBN) {
     if (loginStack.empty()) {
         return;
     }
-    string userID = getCurrentUserID();
-    selectedBooks[userID] = ISBN;
+    // string userID = getCurrentUserID();
+    // selectedBooks[userID] = ISBN;
+    int index = loginStack.size() - 1;
+    selectedBooks[index] = ISBN;
 }
 string AccountSystem::getSelectedBook() const {
-    // if (loginStack.empty()) {
-    //     return "";
-    // }
+    if (loginStack.empty()) {
+        return "";
+    }
     // string userID = getCurrentUserID();
     // auto it = selectedBooks.find(userID);
     // if (it == selectedBooks.end()) {
     //     return "";
     // }
     // return it->second;
-    if (loginStack.empty()) {
-        std::cerr << "[getSelectedBook] loginStack empty" << std::endl;
-        return "";
-    }
-    string userID = getCurrentUserID();
-
-    std::map<string, string>::const_iterator it = selectedBooks.find(userID);
-
-    if (it == selectedBooks.end()) {
-        std::cerr << "[getSelectedBook] user=" << userID << " → NOT FOUND" << std::endl;
-        return "";
-    }
-
-    std::cerr << "[getSelectedBook] user=" << userID << " → " << it->second << std::endl;
-    return it->second;
+    int index = loginStack.size() - 1;
+    return selectedBooks[index];
 }
 bool AccountSystem::isUserLoggedIn(const string& userID) const {
     for (int i = 0; i < loginStack.size(); ++i) {
@@ -154,6 +143,7 @@ void AccountSystem::su(const string& userID, const string& password) {
     }
     if (strcmp(account.password, password.c_str()) == 0) {
         loginStack.push_back(account);
+        selectedBooks.push_back("");
         return;
     } else {
         std::cout << "Invalid\n";
@@ -174,17 +164,18 @@ void AccountSystem::logout() {
     }
     string userID = loginStack.back().userID;
     loginStack.pop_back();
-    bool stillLoggedIn = false;
-    for (int i = 0; i < loginStack.size(); ++i) {
-        string stackUserID(loginStack[i].userID);
-        if (stackUserID == userID) {
-            stillLoggedIn = true;
-            break;
-        }
-    }
-    if (!stillLoggedIn) {
-        selectedBooks.erase(userID);
-    }
+    selectedBooks.pop_back();
+    // bool stillLoggedIn = false;
+    // for (int i = 0; i < loginStack.size(); ++i) {
+    //     string stackUserID(loginStack[i].userID);
+    //     if (stackUserID == userID) {
+    //         stillLoggedIn = true;
+    //         break;
+    //     }
+    // }
+    // if (!stillLoggedIn) {
+    //     selectedBooks.erase(userID);
+    // }
 }
 
 
@@ -351,9 +342,9 @@ void AccountSystem::deleteAccount(const string& userID) {
 
 
 void AccountSystem::modifySelectedBooks(const string& oldISBN, const string& newISBN) {
-    for (auto it = selectedBooks.begin(); it != selectedBooks.end(); ++it) {
-        if (it->second == oldISBN) {
-            it->second = newISBN;
+    for (int i = 0; i < selectedBooks.size(); ++i) {
+        if (selectedBooks[i] == oldISBN) {
+            selectedBooks[i] = newISBN;
         }
     }
 }
