@@ -169,20 +169,23 @@ void FinanceSystem::printFinanceReport() {
     std::cout << "Transaction History:\n";
 
     for (long long i = 0; i < allTrans.size(); ++i) {
-        std::cout << "(" << allTrans[i].index << ")\t";
+        char temp[20];
+        sprintf(temp, "(%lld)", allTrans[i].index);
+        std::cout << std::left << std::setw(7) << temp;
         if (allTrans[i].amount > 0 ) {
-            std::cout << "Income:  " << "+" << allTrans[i].amount << '\n';
+            std::cout << std::left << std::setw(10) << "Income:" << "+" << allTrans[i].amount << '\n';
             income += allTrans[i].amount;
         } else {
-            std::cout << "Expense: " << "-" << (-allTrans[i].amount) << '\n';
+            std::cout << std::left << std::setw(10) << "Expense:" << "-" << (-allTrans[i].amount) << '\n';
             expense += (-allTrans[i].amount);
         }
     }
 
-    std::cout << '\n' << "Summary:\n";
-    std::cout << "Total income:  +" << income << "\n";
-    std::cout << "Total expense: -" << expense << "\n";
-    std::cout << "Balance: " << (income - expense) << '\n';
+    std::cout << "Summary:\n";
+    std::cout << std::left << std::setw(16) << "Total income:" << "+" << income << "\n";
+    std::cout << std::left << std::setw(16) << "Total expense:" << "-" << expense << "\n";
+    std::cout << std::left << std::setw(16) << "Balance:" << (income - expense) << '\n';
+    std::cout << '\n' << '\n';
 }
 
 
@@ -210,12 +213,23 @@ void FinanceSystem::printEmployeeReport() {
         return;
     }
 
+    int maxLength = 0;
+    for (long long i = 0; i < allOps.size(); ++i) {
+        int length = strlen(allOps[i].userID);
+        if (length > maxLength) {
+            maxLength = length;
+        }
+    }
+
     std::cout << "Operation History:\n";
     for (long long i = 0; i < allOps.size(); ++i) {
-        std::cout << "(" << allOps[i].index << ")\t";
-        std::cout << allOps[i].userID << '\t';
+        char temp[20];
+        sprintf(temp, "(%lld)", allOps[i].index);
+        std::cout << std::left << std::setw(7) << temp;
+        std::cout << std::left << std::setw(maxLength + 3) << allOps[i].userID;
         std::cout << allOps[i].operation << '\n';
     }
+    std::cout<< '\n' << '\n';
 }
 
 
@@ -227,6 +241,5 @@ void FinanceSystem::printLog() {
     }
 
     printFinanceReport();
-    std::cout << "\n";
     printEmployeeReport();
 }
